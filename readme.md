@@ -88,4 +88,5 @@ Refer to the [original project](https://github.com/danielwerg/r6api.js) for API 
 ## Credit
 
 Operator Icons from [r6operators.marcopixel.eu](https://r6operators.marcopixel.eu)
+
 r6api.js created by [Daniel Werg](https://github.com/danielwerg/r6api.js)
