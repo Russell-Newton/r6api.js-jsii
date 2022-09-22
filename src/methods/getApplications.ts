@@ -15,7 +15,7 @@ export interface IApiResponse {
   applications: IApplications[];
 }
 
-export default (applicationIds: UUID[]) =>
+export default (applicationIds: UUID[]): Promise<any[]> =>
   getToken()
     .then(fetch<IApiResponse>(getURL.APPLICATIONS(applicationIds)))
     .then(res => res.applications)

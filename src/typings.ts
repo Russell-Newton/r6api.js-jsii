@@ -35,4 +35,4 @@ export type BoardId = keyof typeof constants.BOARDS;
 export type StatsCategoryName = keyof typeof constants.STATS_CATEGORIES;
 
 export type IOptionsDocs =
-  [Param: string, Type: string, Required: boolean, Default: string, Description: string][]
+  [string, string, boolean, string, string][]

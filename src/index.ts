@@ -10,15 +10,14 @@ import {
   getAuthFilePath as _getAuthFilePath
 } from './auth';
 import _findByUsername from './methods/findByUsername';
-import _findById, { IOptions as IFindByIdOptions} from './methods/findById';
+import _findById from './methods/findById';
 import _getProgression from './methods/getProgression';
 import _getPlaytime from './methods/getPlaytime';
-import _getRanks, { IOptions as IGetRanksOptions } from './methods/getRanks';
-import _getStats, { IOptions as IGetStatsOptions } from './methods/getStats';
+import _getRanks from './methods/getRanks';
+import _getStats from './methods/getStats';
 import _getStatus from './methods/getStatus';
-import _getUserStatus, { IOptions as IGetUserStatusOptions } from './methods/getUserStatus';
-import _getProfileApplications, { IOptions as IGetProfileApplicationsOptions }
-  from './methods/getProfileApplications';
+import _getUserStatus from './methods/getUserStatus';
+import _getProfileApplications from './methods/getProfileApplications';
 import _getApplications from './methods/getApplications';
 import _validateUsername from './methods/validateUsername';
 import _custom from './methods/custom';
@@ -31,15 +30,13 @@ export * as typings from './typings';
 export * as constants from './constants';
 export * as utils from './utils';
 
-const checkQueryLimit = <T extends (...args: any) => any>({
-  method, platform, query, options, limit
-}: {
-  method: T;
-  platform?: PlatformAllExtended;
-  query: QueryUUID | QueryString;
-  options?: any;
-  limit: number;
-}): ReturnType<T> => {
+const checkQueryLimit = <T extends (...args: any) => any>(
+  method: T,
+  query: QueryUUID | QueryString,
+  limit: number,
+  platform?: PlatformAllExtended,
+  options?: any,
+): ReturnType<T> => {
   const queryArray = Array.isArray(query) ? query : [query];
   if (queryArray.length > limit)
     return Promise.reject(
@@ -51,77 +48,89 @@ const checkQueryLimit = <T extends (...args: any) => any>({
 type QueryUUID = UUID | UUID[];
 type QueryString = string | string[];
 
-export default class R6API {
+export class R6api {
 
-  constructor(options: {
-    email?: string;
-    password?: string;
-    ubiAppId?: string;
-    authFileDirPath?: string;
-    authFileName?: string;
-    authFilePath?: string;
-  }) {
-    if (options.email && options.password) _setCredentials(options.email, options.password);
-    if (options.ubiAppId) _setUbiAppId(options.ubiAppId);
-    if (options.authFileDirPath) _setAuthFileDirPath(options.authFileDirPath);
-    if (options.authFileName) _setAuthFileName(options.authFileName);
-    if (options.authFilePath) _setAuthFilePath(options.authFilePath);
+  public constructor(email?: string,
+    password?: string,
+    ubiAppId?: string,
+    authFileDirPath?: string,
+    authFileName?: string,
+    authFilePath?: string,
+  ) {
+    if (email && password) _setCredentials(email, password);
+    if (ubiAppId) _setUbiAppId(ubiAppId);
+    if (authFileDirPath) _setAuthFileDirPath(authFileDirPath);
+    if (authFileName) _setAuthFileName(authFileName);
+    if (authFilePath) _setAuthFilePath(authFilePath);
   }
 
   /** Find player by their username. */
-  findByUsername = (platform: PlatformAll, query: QueryString) =>
-    checkQueryLimit({ method: _findByUsername, platform, query, limit: 50 });
+  public findByUsername(platform: PlatformAll, query: QueryString) {
+    return checkQueryLimit(_findByUsername, query, 50, platform);
+  }
 
   /** Find player by their id. */
-  findById = (
-    platform: PlatformAllExtended, query: QueryUUID | QueryString, options?: IFindByIdOptions
-  ) =>
-    checkQueryLimit({ method: _findById, platform, query, options, limit: 50 })
+  public findById(platform: PlatformAllExtended, query: QueryUUID | QueryString, options?: any) {
+    return checkQueryLimit(_findById, query, 50, platform, options)
+  }
 
   /** Get playtime of a player. */
-  getPlaytime = (platform: Platform, query: QueryUUID) =>
-    checkQueryLimit({ method: _getPlaytime, platform, query, limit: 200 })
+  public getPlaytime(platform: Platform, query: QueryUUID) {
+    return checkQueryLimit(_getPlaytime, query, 200, platform)
+  }
 
   /** Get level, xp and alpha pack drop chance of a player. */
-  getProgression = (platform: Platform, query: QueryUUID) =>
-    checkQueryLimit({ method: _getProgression, platform, query, limit: 200 })
+  public getProgression(platform: Platform, query: QueryUUID) {
+    return checkQueryLimit(_getProgression, query, 200, platform)
+  }
 
   /** Get seasonal stats of a player. */
-  getRanks = (platform: Platform, query: QueryUUID, options?: IGetRanksOptions) =>
-    checkQueryLimit({ method: _getRanks, platform, query, options, limit: 200 })
+  public getRanks(platform: Platform, query: QueryUUID, options?: any) {
+    return checkQueryLimit(_getRanks, query, 200, platform, options)
+  }
 
   /** Get summary stats of a player. */
-  getStats = (platform: Platform, query: QueryUUID, options?: IGetStatsOptions) =>
-    checkQueryLimit({ method: _getStats, platform, query, options, limit: 200 })
+  public getStats(platform: Platform, query: QueryUUID, options?: any) {
+    return checkQueryLimit(_getStats, query, 200, platform, options)
+  }
 
   /** Get Rainbow Six: Siege servers status. */
-  getStatus = _getStatus
+  public apiGetStatus() { return _getStatus(); }
   /** Get status of a player. */
-  getUserStatus = (query: QueryUUID, options?: IGetUserStatusOptions) =>
-    checkQueryLimit({ method: _getUserStatus, query, options, limit: 50 })
-  /** Get information about applications of a player. */
-  getProfileApplications = (query: QueryUUID, options?: IGetProfileApplicationsOptions) =>
-    checkQueryLimit({ method: _getProfileApplications, query, options, limit: 100 })
-  /** Get information about applications. */
-  getApplications = (query: QueryUUID) =>
-    checkQueryLimit({ method: _getApplications, query, limit: 50 })
-  /** Validate username. */
-  validateUsername = _validateUsername
-  /** Useful if you're familiar with Rainbow Six Siege's API; this method will make a request to a custom URL you would provide with the token in the header. */
-  custom = _custom
-  /** Get Rainbow Six: Siege News. */
-  getNews = _getNews
-  /** Get Rainbow Six: Siege News by ID. */
-  getNewsById = _getNewsById
+  public getUserStatus(query: QueryUUID, options?: any) {
+    return checkQueryLimit(_getUserStatus, query, 50, undefined, options)
+  }
 
-  getAuth = _getAuth
-  getTicket = _getTicket
-  getToken = _getToken
-  setCredentials = _setCredentials
-  setUbiAppId = _setUbiAppId
-  setAuthFileDirPath = _setAuthFileDirPath
-  setAuthFileName = _setAuthFileName
-  setAuthFilePath = _setAuthFilePath
-  getAuthFilePath = _getAuthFilePath
+  /** Get information about applications of a player. */
+  public getProfileApplications(query: QueryUUID, options?: any) {
+    return checkQueryLimit(_getProfileApplications, query, 100, undefined, options)
+  }
+  /** Get information about applications. */
+  public getApplications(query: QueryUUID) {
+    return checkQueryLimit(_getApplications, query, 50)
+  }
+
+  /** Validate username. */
+  public validateUsername(username: string) { return _validateUsername(username) }
+  /** Useful if you're familiar with Rainbow Six Siege's API; this method will make a request to a custom URL you would provide with the token in the header. */
+  public custom(url: string, options?: any) { return _custom(url, options) }
+  /** Get Rainbow Six: Siege News. */
+  public getNews(options?: any) { return _getNews(options); }
+  /** Get Rainbow Six: Siege News by ID. */
+  public getNewsById(id: string, options?: any) { return _getNewsById(id, options) }
+
+  public apiGetAuth() { return _getAuth(); }
+  public apiGetTicket() { return _getTicket(); }
+  public apiGetToken() { return _getToken(); }
+  public apiSetCredentials(email: string, password: string) { _setCredentials(email, password) }
+  public apiSetUbiAppId(_ubiAppId: string) { _setUbiAppId(_ubiAppId) }
+  public apiSetAuthFileDirPath(path: string) { _setAuthFileDirPath(path) }
+  public apiSetAuthFileName(name: string) { _setAuthFileName(name) }
+  public apiSetAuthFilePath(path: string) { _setAuthFilePath(path) }
+  public apiGetAuthFilePath() {
+    return _getAuthFilePath();
+  }
 
 }
+
+export default R6api

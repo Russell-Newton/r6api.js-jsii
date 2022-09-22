@@ -41,8 +41,7 @@ export interface IRank {
 export interface IApiResponse {
   players: Record<string, IRank>
 }
-
-export type IBoards = Record<BoardId, {
+export interface IBoard {
   boardId: BoardId;
   boardName: string;
   skillMean: number;
@@ -84,26 +83,29 @@ export type IBoards = Record<BoardId, {
   matches: number;
   abandons: number;
   updateTime: string;
-}>
-export type IRegions = Record<RegionId, {
+}
+export type IBoards = Record<BoardId, IBoard>
+export interface IRegion {
   regionId: RegionId;
   regionName: string;
   boards: IBoards;
-}>
-export type ISeasons = Record<SeasonId, {
+}
+export type IRegions = Record<RegionId, IRegion>
+export interface ISeason {
   seasonId: SeasonId;
   seasonName?: string;
-  seasonColor?: `#${string}`;
+  seasonColor?: string;
   seasonImage?: string;
   seasonReleaseDate?: string;
   regions: IRegions;
-}>
+}
+export type ISeasons = Record<SeasonId, ISeason>
 export interface IGetRanks {
   id: UUID;
-  seasons: ISeasons;
+  seasons: any;
 }
 
-export interface IOptions {
+export interface IGetRanksOptions {
   seasonIds?: SeasonIdExtended | SeasonIdExtended[] | 'all';
   regionIds?: RegionId | RegionId[] | 'all';
   boardIds?: BoardId | BoardId[] | 'all';
@@ -130,7 +132,7 @@ export const optionsDocs: IOptionsDocs = [
 const getMatchResult = (id: IRank['last_match_result']) =>
   ({ 0: 'unknown', 1: 'win', 2: 'loss', 3: 'abandon' }[id]);
 
-export default (platform: Platform, ids: UUID[], options?: IOptions) => {
+export default (platform: Platform, ids: UUID[], options?: IGetRanksOptions): Promise<any[]> => {
 
   const boardIds = options && options.boardIds && options.boardIds !== 'all'
     ? [options.boardIds].flat() : Object.keys(BOARDS) as BoardId[];
@@ -239,7 +241,7 @@ export default (platform: Platform, ids: UUID[], options?: IOptions) => {
               });
             return acc;
           }, {} as Record<string, any>)
-      ) as IGetRanks[]
+      )
     );
 
 };

@@ -66,7 +66,7 @@ export const optionsDocs: IOptionsDocs = [
   ['fallbackLocale', '`string`', false, '`\'en-us\'`', '']
 ];
 
-export default async (id: string, options?: IOptions) => {
+export default async function _getNewsById(id: string, options?: IOptions): Promise<any> {
 
   const raw = options && options.raw || false;
   const locale = options && options.locale || 'en-gb';

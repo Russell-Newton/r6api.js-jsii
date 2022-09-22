@@ -14,7 +14,7 @@ export interface IApiResponse {
   profiles: IProfile[];
 }
 
-export default (platform: PlatformAll, username: string[]) =>
+export default (platform: PlatformAll, username: string[]): Promise<any[]> =>
   getToken()
     .then(fetch<IApiResponse>(getURL.BYUSERNAME(platform, username)))
     .then(res => res.profiles.map(profile => ({

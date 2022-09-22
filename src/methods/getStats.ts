@@ -194,7 +194,7 @@ export interface IGetStats {
   };
 }
 
-export interface IOptions {
+export interface IGetStatsOptions {
   raw?: boolean;
   categories?: StatsCategoryName[];
 }
@@ -324,7 +324,7 @@ const weaponsGetter = (obj: any, type: MPType) =>
     return acc;
   }, {} as Record<string, any>);
 
-export default (platform: Platform, ids: UUID[], options?: IOptions) => {
+export default (platform: Platform, ids: UUID[], options?: IGetStatsOptions) => {
 
   const raw = options && options.raw || false;
 
@@ -529,7 +529,7 @@ export default (platform: Platform, ids: UUID[], options?: IOptions) => {
               }
             }
           }
-        })) as IGetStats[]
+        })) as any[]
     );
 
 };

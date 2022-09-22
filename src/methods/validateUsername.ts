@@ -2,7 +2,7 @@ import { getToken, getAuth } from '../auth';
 import fetch from '../fetch';
 import { getURL } from '../utils';
 
-export default async (username: string) => {
+export default async function _validateUsername(username: string): Promise<any> {
 
   const { userId } = await getAuth();
 

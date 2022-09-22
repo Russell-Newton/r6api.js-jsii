@@ -15,7 +15,7 @@ const statGetter = (obj: IApiResponse, id: UUID, stat: string, type: MPType) =>
   (obj.results[id] as IApiResponse['results'][string])[`${stat}${type}_timeplayed:infinite`]
   || 0;
 
-export default (platform: Platform, ids: UUID[]) =>
+export default (platform: Platform, ids: UUID[]): Promise<any[]> =>
   getToken()
     .then(fetch<IApiResponse>(getURL.PLAYTIME(platform, ids)))
     .then(res =>

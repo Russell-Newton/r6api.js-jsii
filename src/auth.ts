@@ -72,7 +72,7 @@ const setNextLogin = async (auth: IUbiAuth) => {
   LOGIN_TIMEOUT = setTimeout(() => login(), getExpiration(auth));
 };
 
-export const getAuth = () => login();
+export const getAuth = () => login() as any;
 export const getTicket = () => login().then(auth => auth.ticket);
 export const getToken = () => login().then(auth => `Ubi_v1 t=${auth.ticket}`);
 

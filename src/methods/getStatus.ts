@@ -16,8 +16,8 @@ export interface IApiResponse {
   ImpactedFeatures: string[];
 }
 
-export default () =>
-  fetch<IApiResponse[]>(getURL.STATUS())()
+export default function _getStatus(): Promise<any[]> {
+  return fetch<IApiResponse[]>(getURL.STATUS())()
     .then(res =>
       res
         .filter(app =>
@@ -36,3 +36,4 @@ export default () =>
           impactedFeatures: app.ImpactedFeatures
         }))
     );
+}

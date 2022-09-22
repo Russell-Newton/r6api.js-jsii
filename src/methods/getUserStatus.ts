@@ -23,7 +23,7 @@ export interface IApiResponse {
   onlineStatuses: IOnlineStatuses[];
 }
 
-export interface IOptions {
+export interface IGetUserStatusOptions {
   fetchApplications: boolean;
 }
 
@@ -34,7 +34,7 @@ export const optionsDocs: IOptionsDocs = [
   ]
 ];
 
-export default (ids: UUID[] | string[], options: IOptions) => {
+export default (ids: UUID[] | string[], options: IGetUserStatusOptions): Promise<any[]> => {
 
   return getToken()
     .then(

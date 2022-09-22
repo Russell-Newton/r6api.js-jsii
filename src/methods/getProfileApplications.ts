@@ -17,7 +17,7 @@ export interface IApiResponse {
   applications: IUserApplications[];
 }
 
-export interface IOptions {
+export interface IGetProfileApplicationsOptions {
   fetchApplications: boolean;
 }
 
@@ -28,7 +28,7 @@ export const optionsDocs: IOptionsDocs = [
   ]
 ];
 
-export default (ids: UUID[], options?: IOptions) =>
+export default (ids: UUID[], options?: IGetProfileApplicationsOptions): Promise<any[]> =>
   getToken()
     .then(fetch<IApiResponse>(getURL.PROFILEAPPLICATIONS(ids)))
     .then(res => res.applications)

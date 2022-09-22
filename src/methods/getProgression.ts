@@ -13,7 +13,7 @@ export interface IApiResponse {
   player_profiles: IProgression[];
 }
 
-export default (platform: Platform, ids: UUID[]) =>
+export default (platform: Platform, ids: UUID[]): Promise<any[]> =>
   getToken()
     .then(fetch<IApiResponse>(getURL.PROGRESS(platform, ids)))
     .then(res =>

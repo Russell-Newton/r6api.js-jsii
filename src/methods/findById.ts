@@ -14,7 +14,7 @@ export interface IApiResponse {
   profiles: IProfile[];
 }
 
-export interface IOptions {
+export interface IFindByIdOptions {
   isUserId?: boolean;
 }
 
@@ -24,7 +24,7 @@ export const optionsDocs: IOptionsDocs = [
   ]
 ];
 
-export default (platform: PlatformAllExtended, ids: UUID[] | string[], options?: IOptions) =>
+export default (platform: PlatformAllExtended, ids: UUID[] | string[], options?: IFindByIdOptions): Promise<any[]> =>
 
   getToken()
     .then(
