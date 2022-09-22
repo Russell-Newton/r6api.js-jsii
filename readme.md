@@ -22,7 +22,7 @@ If you just want to use the Node.js version of the library, refer to the [origin
 To use the api in a JSII-compatible language, you will need to build the library with JSII. If you want to build it for a language other than Python, add the build information to the jsii section in `package.json`. Refer to [the JSII documentation](https://aws.github.io/jsii/user-guides/lib-author/configuration/#the-jsii-section).
 
 ```sh
-$ npm run build && npm run package
+npm run build && npm run package
 ```
 
 The created library package for your language will be in `/dist`.
