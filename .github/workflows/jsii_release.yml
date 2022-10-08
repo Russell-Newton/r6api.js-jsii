@@ -36,4 +36,5 @@ jobs:
         with:
           allowUpdates: true
           artifacts: "dist/**/*.tgz,dist/**/*.tar.gz,dist/**/*.whl"
+          removeArtifacts: true
           tag: "jsii-packages"
