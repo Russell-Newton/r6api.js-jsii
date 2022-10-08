@@ -1,0 +1,39 @@
+name: Generate Release Artifacts
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Generate and Upload
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Build JavaScript for JSII packaging
+        run: npm run build
+
+      - name: Package JSII Libraries
+        run: npm run package
+
+      - name: Upload Release Artifact
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "dist/"
+          tag: "JSII Artifacts"
