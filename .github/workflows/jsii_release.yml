@@ -35,5 +35,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "dist/"
+          artifacts: "dist/**/*.tgz,dist/**/*.tar.gz,dist/**/*.whl"
           tag: "jsii-packages"
