@@ -53,7 +53,7 @@ export const login = async () => {
   return fetch<IUbiAuth>(getURL.LOGIN(), {
     method: 'POST',
     body: JSON.stringify({ rememberMe: true })
-  })(token)
+  })(token, true)
     .then(async res => {
       if (res && res.ticket && res.expiration) {
         await fs.writeFile(getAuthFilePath(), JSON.stringify(res));

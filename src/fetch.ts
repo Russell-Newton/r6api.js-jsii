@@ -1,14 +1,21 @@
 import nodeFetch, { RequestInit, Response } from 'node-fetch';
 
-import { ubiAppId } from './auth';
+import { ubiAppId, getAuth } from './auth';
 
 const promiseTimeout = <T>(promise: Promise<T>, ms: number, reject = true) =>
   Promise.race([promise, new Promise((res, rej) => setTimeout(() => reject ? rej : res, ms))]);
 
 export default <T>(url: string, options: Partial<RequestInit> = {}) =>
-  async (token?: string): Promise<T> => {
+  async (token?: string, loggingIn: boolean = false): Promise<T> => {
 
     const { headers, ...optionsRest } = options;
+    let sessionId = null;
+    let expiration = null;
+    if (!loggingIn) {
+      let auth = await getAuth();
+      sessionId = auth.sessionId;
+      expiration = auth.expiration;
+    }
 
     const response = await nodeFetch(
       url,
@@ -18,6 +25,8 @@ export default <T>(url: string, options: Partial<RequestInit> = {}) =>
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Ubi-AppId': ubiAppId,
+            ...sessionId && { 'Ubi-SessionId': sessionId },
+            ...expiration && { 'expiration': expiration },
             ...token && { 'Authorization': token },
             ...headers && { ...headers }
           }

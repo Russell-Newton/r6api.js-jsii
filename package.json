@@ -1,6 +1,6 @@
 {
   "name": "r6api",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "description": "JSII-compatible wrapper around Rainbow Six: Siege API.",
   "author": {
     "name": "Daniel Sandberg"
