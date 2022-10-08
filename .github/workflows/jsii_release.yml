@@ -36,4 +36,4 @@ jobs:
         with:
           allowUpdates: true
           artifacts: "dist/"
-          tag: "JSII Artifacts"
+          tag: "jsii-packages"
