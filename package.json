@@ -23,6 +23,7 @@
     "jsii-release": "^0.2.248"
   },
   "bundledDependencies": [
+    "@types/node-fetch",
     "node-fetch"
   ],
   "keywords": [
