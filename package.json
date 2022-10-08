@@ -14,16 +14,15 @@
     "package": "jsii-pacmak -vvv"
   },
   "dependencies": {
-    "@types/node-fetch": "^2.6.2",
     "node-fetch": "^2.6.7"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.2",
     "jsii": "^1.67.0",
     "jsii-pacmak": "^1.67.0",
     "jsii-release": "^0.2.248"
   },
   "bundledDependencies": [
-    "@types/node-fetch",
     "node-fetch"
   ],
   "keywords": [
